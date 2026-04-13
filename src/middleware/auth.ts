@@ -6,6 +6,9 @@ export interface AuthRequest extends Request {
     id: string;
     email?: string;
   };
+  headers: any;
+  body: any;
+  params: any;
 }
 
 export async function authMiddleware(

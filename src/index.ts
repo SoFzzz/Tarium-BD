@@ -26,7 +26,7 @@ app.use(
 app.use(express.json());
 
 // Health check
-app.get('/health', (req, res) => {
+app.get('/health', (_req, res) => {
   res.json({ status: 'ok', timestamp: new Date().toISOString() });
 });
 
@@ -35,7 +35,7 @@ app.use('/api/playlists', playlistRoutes);
 app.use('/api/favorites', favoriteRoutes);
 
 // Error handling
-app.use((req, res) => {
+app.use((_req, res) => {
   res.status(404).json({ error: 'Ruta no encontrada' });
 });
 
