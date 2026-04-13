@@ -8,6 +8,23 @@ if (!YOUTUBE_API_KEY) {
   console.warn('⚠️ YOUTUBE_API_KEY no está configurada. Las búsquedas de YouTube fallarán.');
 }
 
+interface YouTubeApiResponse {
+  items?: Array<{
+    id: { videoId?: string; kind?: string };
+    snippet: {
+      title: string;
+      channelTitle: string;
+      thumbnails: {
+        medium?: { url: string };
+        default?: { url: string };
+      };
+    };
+    contentDetails?: {
+      duration: string;
+    };
+  }>;
+}
+
 // Normalización al tipo YouTubeSearchResult del frontend
 function mapYouTubeItemToSearchResult(item: any) {
   const id = item.id?.videoId || item.id;
@@ -59,7 +76,7 @@ router.get('/search', async (req, res) => {
       return;
     }
 
-    const json = await upstreamRes.json();
+    const json = (await upstreamRes.json()) as YouTubeApiResponse;
     const items = Array.isArray(json.items) ? json.items : [];
 
     const normalized = items.map(mapYouTubeItemToSearchResult);
@@ -108,7 +125,7 @@ router.get('/metadata', async (req, res) => {
       return;
     }
 
-    const json = await upstreamRes.json();
+    const json = (await upstreamRes.json()) as YouTubeApiResponse;
     const item = Array.isArray(json.items) && json.items.length > 0 ? json.items[0] : null;
 
     if (!item) {
