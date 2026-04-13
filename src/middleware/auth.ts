@@ -6,9 +6,6 @@ export interface AuthRequest extends Request {
     id: string;
     email?: string;
   };
-  headers: any;
-  body: any;
-  params: any;
 }
 
 export async function authMiddleware(
@@ -17,7 +14,7 @@ export async function authMiddleware(
   next: NextFunction
 ): Promise<void> {
   try {
-    const authHeader = req.headers.authorization;
+    const authHeader = req.headers.authorization as string | undefined;
 
     if (!authHeader || !authHeader.startsWith('Bearer ')) {
       res.status(401).json({ error: 'Token no proporcionado' });

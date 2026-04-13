@@ -1,4 +1,4 @@
-import express from 'express';
+import express, { Request, Response } from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
 import { fileURLToPath } from 'url';
@@ -26,7 +26,7 @@ app.use(
 app.use(express.json());
 
 // Health check
-app.get('/health', (_req, res) => {
+app.get('/health', (_req: Request, res: Response) => {
   res.json({ status: 'ok', timestamp: new Date().toISOString() });
 });
 
@@ -35,7 +35,7 @@ app.use('/api/playlists', playlistRoutes);
 app.use('/api/favorites', favoriteRoutes);
 
 // Error handling
-app.use((_req, res) => {
+app.use((_req: Request, res: Response) => {
   res.status(404).json({ error: 'Ruta no encontrada' });
 });
 
