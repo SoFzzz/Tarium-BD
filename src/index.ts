@@ -5,6 +5,8 @@ import { fileURLToPath } from 'url';
 import { dirname, join } from 'path';
 import playlistRoutes from './routes/playlists.js';
 import favoriteRoutes from './routes/favorites.js';
+import youtubeRoutes from './routes/youtube.js';
+import historyRoutes from './routes/history.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -33,6 +35,8 @@ app.get('/health', (_req: Request, res: Response) => {
 // Routes
 app.use('/api/playlists', playlistRoutes);
 app.use('/api/favorites', favoriteRoutes);
+app.use('/api/youtube', youtubeRoutes);
+app.use('/api/history', historyRoutes);
 
 // Error handling
 app.use((_req: Request, res: Response) => {
